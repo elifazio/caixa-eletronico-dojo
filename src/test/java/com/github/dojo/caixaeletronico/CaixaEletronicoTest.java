@@ -16,9 +16,4 @@ public class CaixaEletronicoTest {
     public void setUp() {
         caixaEletronico = new CaixaEletronico();
     }
-
-    @Test
-    public void test() {
-        
-    }
 }
