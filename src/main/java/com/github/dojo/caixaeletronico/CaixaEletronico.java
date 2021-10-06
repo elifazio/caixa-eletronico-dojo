@@ -25,10 +25,14 @@ import java.util.List;
  */
 public class CaixaEletronico {
 
-    public List<Integer> sacar(int valorSacar) {
+    public Integer[] sacar(int valorSacar) {
 
-        List<Integer> valorSacado = new ArrayList<>();
+        Integer[] valorSacado = new Integer[4];
         
+        valorSacado = new Integer[] { 0, 0, 0, 0 };
+
+        int resto = 0;
+
         if (valorSacar % 10 != 0 || valorSacar <= 0) {
             throw new IllegalArgumentException();
         }
@@ -36,19 +40,27 @@ public class CaixaEletronico {
         // if (valorSacar % 10 == 0 ){
         //      return valorSacar / 10;              
         // }
+        valorSacado[0] = valorSacar / 100;
+        resto = valorSacar % 100;
+        if (resto > 0) {
+            valorSacado[1] = resto / 50;
+            resto = resto % 50;
+        }
+        
+        if (resto > 0) {
+            valorSacado[2] = resto / 20;
+            resto = resto % 20;
+        }
 
-        if (valorSacar % 100 == 0) {
-            valorSacado.add(100);
+        if (resto > 0) {
+            valorSacado[3] = resto / 10;
+            resto = resto % 10;
         }
-        else if (valorSacar % 50 == 0) {
-            valorSacado.add(50);
+        
+
+        while (resto > 0) {
+
         }
-        else if (valorSacar % 20 == 0) {
-            valorSacado.add(20);
-        }
-        else if (valorSacar % 10 == 0) {
-            valorSacado.add(10);
-        }         
 
         return valorSacado;
     }
