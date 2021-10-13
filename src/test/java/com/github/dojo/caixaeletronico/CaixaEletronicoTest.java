@@ -1,9 +1,8 @@
 package com.github.dojo.caixaeletronico;
 
-import static org.junit.Assert.assertEquals;
-
-import java.math.BigDecimal;
-import java.util.List;
+import java.util.Collections;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,46 +17,69 @@ public class CaixaEletronicoTest {
 
     private CaixaEletronico caixaEletronico;
 
+    private Map<Integer, Integer> valorSacado = new TreeMap<>(Collections.reverseOrder());
+
     @Before
     public void setUp() {
         caixaEletronico = new CaixaEletronico();
+        valorSacado.put(100, 0);
+        valorSacado.put(50, 0);
+        valorSacado.put(20, 0);
+        valorSacado.put(10, 0);
     }
 
     @Test()
     public void sacar_valor_200() {
         int valorSaque = 200;
-        Assert.assertArrayEquals(new Integer[] { 2, 0, 0, 0 }, caixaEletronico.sacar(valorSaque));
+        valorSacado.put(100, 2);
+
+        Assert.assertEquals(valorSacado, caixaEletronico.sacar(valorSaque));
     }
 
     @Test()
     public void sacar_valor_150() {
         int valorSaque = 150;
-        Assert.assertArrayEquals(new Integer[] { 1, 1, 0, 0 }, caixaEletronico.sacar(valorSaque));
-    }    
-// criar um cenario de testes com todas as notas no retorno
-// refatorar para melhorar o algoritmo...
+        valorSacado.put(100, 1);
+        valorSacado.put(50, 1);
+        Assert.assertEquals(valorSacado, caixaEletronico.sacar(valorSaque));
+    }
+
     @Test()
     public void sacar_valor_100() {
         int valorSaque = 100;
-        Assert.assertArrayEquals(new Integer[] { 1, 0, 0, 0 }, caixaEletronico.sacar(valorSaque));
+        valorSacado.put(100, 1);
+        Assert.assertEquals(valorSacado, caixaEletronico.sacar(valorSaque));
     }
 
     @Test()
     public void sacar_valor_50() {
         int valorSaque = 50;
-        Assert.assertArrayEquals(new Integer[] { 0, 1, 0, 0 }, caixaEletronico.sacar(valorSaque));
+        valorSacado.put(50, 1);
+        Assert.assertEquals(valorSacado, caixaEletronico.sacar(valorSaque));
     }
 
     @Test()
     public void sacar_valor_20() {
         int valorSaque = 20;
-        Assert.assertArrayEquals(new Integer[] { 0, 0, 1, 0 }, caixaEletronico.sacar(valorSaque));
+        valorSacado.put(20, 1);
+        Assert.assertEquals(valorSacado, caixaEletronico.sacar(valorSaque));
     }
 
     @Test()
     public void sacar_valor_10() {
         int valorSaque = 10;
-        Assert.assertArrayEquals(new Integer[] { 0, 0, 0, 1 }, caixaEletronico.sacar(valorSaque));
+        valorSacado.put(10, 1);
+        Assert.assertEquals(valorSacado, caixaEletronico.sacar(valorSaque));
+    }
+
+    @Test()
+    public void sacar_valor_180() {
+        int valorSaque = 180;
+        valorSacado.put(100, 1);
+        valorSacado.put(50, 1);
+        valorSacado.put(20, 1);
+        valorSacado.put(10, 1);
+        Assert.assertEquals(valorSacado, caixaEletronico.sacar(valorSaque));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -68,7 +90,7 @@ public class CaixaEletronicoTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void sacar_valor_invalido() {
-        Integer valorSaque = new Integer(1);
+        Integer valorSaque = new Integer(13);
         caixaEletronico.sacar(valorSaque);
     }
 
@@ -77,48 +99,4 @@ public class CaixaEletronicoTest {
         Integer valorSaque = new Integer(-1);
         caixaEletronico.sacar(valorSaque);
     }
-
-    // @Test()
-    // public void sacar_valor_10(){
-    // int valorSaque = 10;
-
-    // // Assert.assertEquals(10, caixaEletronico.sacar(valorSaque));
-
-    // }
-
-    // @Test
-    // public void sacar_sucesso() {
-    // BigDecimal valorSaque = new BigDecimal(30);
-    // List<Integer> notas = caixaEletronico.sacar(valorSaque);
-
-    // assertEquals(valorSaque, );
-    // assertEquals(1, notas.qtdDez);
-    // assertEquals(0, notas.qtdCinquenta);
-    // assertEquals(0, notas.qtdCem);
-    // }
-
-    // @Test
-    // public void sacar_envia_nota_5_indisponivel(){
-
-    // BigDecimal valorSaque = new BigDecimal(5);
-
-    // assertFalse((valorSaque % 10 == 0));
-    // }
-
-    // @Test
-    // public void sacar_envia_nota_25_indisponivel(){
-
-    // BigDecimal valorSaque = new BigDecimal(25);
-
-    // assertFalse((valorSaque % 10 == 0));
-    // }
-
-    // @Test
-    // public void sacar_envia_nota_212_indisponivel(){
-
-    // BigDecimal valorSaque = new BigDecimal(212);
-
-    // assertFalse((valorSaque % 10 == 0));
-    // }
-
 }
